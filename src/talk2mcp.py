@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters, types
 from mcp.client.stdio import stdio_client
 import asyncio
-from google import genai
+import google.generativeai as genai
 from concurrent.futures import TimeoutError
 from functools import partial
 
@@ -12,14 +12,15 @@ load_dotenv()
 
 # Access your API key and initialize Gemini client correctly
 api_key = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=api_key)
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-2.0-flash')
 
 max_iterations = 3
 last_response = None
 iteration = 0
 iteration_response = []
 
-async def generate_with_timeout(client, prompt, timeout=10):
+async def generate_with_timeout(model, prompt, timeout=10):
     """Generate content with a timeout"""
     print("Starting LLM generation...")
     try:
@@ -28,10 +29,7 @@ async def generate_with_timeout(client, prompt, timeout=10):
         response = await asyncio.wait_for(
             loop.run_in_executor(
                 None, 
-                lambda: client.models.generate_content(
-                    model="gemini-2.0-flash",
-                    contents=prompt
-                )
+                lambda: model.generate_content(prompt)
             ),
             timeout=timeout
         )
@@ -59,7 +57,7 @@ async def main():
         print("Establishing connection to MCP server...")
         server_params = StdioServerParameters(
             command="python",
-            args=["example2.py"]
+            args=["src/server.py"]
         )
 
         async with stdio_client(server_params) as (read, write):
@@ -160,7 +158,7 @@ Your entire response should be a single line starting with either FUNCTION_CALL:
                     print("Preparing to generate LLM response...")
                     prompt = f"{system_prompt}\n\nQuery: {current_query}"
                     try:
-                        response = await generate_with_timeout(client, prompt)
+                        response = await generate_with_timeout(model, prompt)
                         response_text = response.text.strip()
                         print(f"LLM Response: {response_text}")
                         

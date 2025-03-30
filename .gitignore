@@ -42,3 +42,4 @@ htmlcov/
 .cache
 coverage.xml
 *.cover 
+src/.env
