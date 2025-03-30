@@ -273,8 +273,12 @@ Your entire response should be a single line starting with either FUNCTION_CALL:
                         await asyncio.sleep(1)
 
                         # Create note with table
-                        result = await session.call_tool("create_note_table")
+                        result = await session.call_tool("create_note_table_and_add_text", arguments={"serial_number": 1, "query": query, "response_text": response_text})
                         print(result.content[0].text)
+
+                        # Wait little longer for Notes to be fully written
+                        await asyncio.sleep(1)
+
                         break
 
                     iteration += 1

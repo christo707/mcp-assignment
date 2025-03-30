@@ -151,7 +151,7 @@ def fibonacci_numbers(n: int) -> list:
 
 
 @mcp.tool()
-async def create_note_table() -> dict:
+async def create_note_table_and_add_text(serial_number: int, query: str, response_text: str) -> dict:
     """Create a new note with a table in Notes app"""
     try:
         # AppleScript to create a new note with a table
@@ -165,9 +165,9 @@ async def create_note_table() -> dict:
                         <th>Response</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>''' + str(serial_number) + '''</td>
+                        <td>''' + str(query) + '''</td>
+                        <td>''' + str(response_text) + '''</td>
                     </tr>
                 </table>"}
             end tell
@@ -195,71 +195,6 @@ async def create_note_table() -> dict:
                 )
             ]
         }
-
-# @mcp.tool()
-# async def add_text_in_paint(text: str) -> dict:
-#     """Add text in Paint"""
-#     global paint_app
-#     try:
-#         if not paint_app:
-#             return {
-#                 "content": [
-#                     TextContent(
-#                         type="text",
-#                         text="Paint is not open. Please call open_paint first."
-#                     )
-#                 ]
-#             }
-        
-#         # Get the Paint window
-#         paint_window = paint_app.window(class_name='MSPaintApp')
-        
-#         # Ensure Paint window is active
-#         if not paint_window.has_focus():
-#             paint_window.set_focus()
-#             time.sleep(0.5)
-        
-#         # Click on the Rectangle tool
-#         paint_window.click_input(coords=(528, 92))
-#         time.sleep(0.5)
-        
-#         # Get the canvas area
-#         canvas = paint_window.child_window(class_name='MSPaintView')
-        
-#         # Select text tool using keyboard shortcuts
-#         paint_window.type_keys('t')
-#         time.sleep(0.5)
-#         paint_window.type_keys('x')
-#         time.sleep(0.5)
-        
-#         # Click where to start typing
-#         canvas.click_input(coords=(810, 533))
-#         time.sleep(0.5)
-        
-#         # Type the text passed from client
-#         paint_window.type_keys(text)
-#         time.sleep(0.5)
-        
-#         # Click to exit text mode
-#         canvas.click_input(coords=(1050, 800))
-        
-#         return {
-#             "content": [
-#                 TextContent(
-#                     type="text",
-#                     text=f"Text:'{text}' added successfully"
-#                 )
-#             ]
-#         }
-#     except Exception as e:
-#         return {
-#             "content": [
-#                 TextContent(
-#                     type="text",
-#                     text=f"Error: {str(e)}"
-#                 )
-#             ]
-#         }
 
 @mcp.tool()
 async def open_notes() -> dict:
