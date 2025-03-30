@@ -81,6 +81,8 @@ The server provides the following tools:
 - `fibonacci_numbers(n: int) -> list`: Generate Fibonacci sequence
 - `strings_to_chars_to_int(string: str) -> list[int]`: Convert string to ASCII values
 - `create_thumbnail(image_path: str) -> Image`: Create image thumbnail
+- `open_notes() -> dict`: Open Notes app in macos
+- `create_note_table_and_add_text(serial_number: int, query: str, response_text: str) -> dict`: Create a new note and add a table with llm query and response.
 
 ## Project Structure
 
