@@ -1,6 +1,6 @@
-# MCP Calculator Project
+# MCP Demo Project
 
-A Python-based calculator service built using the Mission Control Protocol (MCP) framework. This project provides a collection of mathematical operations and utilities through an MCP server.
+A Python-based demo service built using the model Control Protocol (MCP) framework. This project provides a collection of mathematical operations and utilities through an MCP server. s
 
 ## Features
 
