@@ -266,31 +266,14 @@ Your entire response should be a single line starting with either FUNCTION_CALL:
 
                     elif response_text.startswith("FINAL_ANSWER:"):
                         print("\n=== Agent Execution Complete ===")
-                        result = await session.call_tool("open_paint")
+                        result = await session.call_tool("open_notes")
                         print(result.content[0].text)
 
-                        # Wait longer for Paint to be fully maximized
+                        # Wait longer for Notes to be fully opened
                         await asyncio.sleep(1)
 
-                        # Draw a rectangle
-                        result = await session.call_tool(
-                            "draw_rectangle",
-                            arguments={
-                                "x1": 780,
-                                "y1": 380,
-                                "x2": 1140,
-                                "y2": 700
-                            }
-                        )
-                        print(result.content[0].text)
-
-                        # Draw rectangle and add text
-                        result = await session.call_tool(
-                            "add_text_in_paint",
-                            arguments={
-                                "text": response_text
-                            }
-                        )
+                        # Create note with table
+                        result = await session.call_tool("create_note_table")
                         print(result.content[0].text)
                         break
 
